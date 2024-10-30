@@ -1,45 +1,77 @@
 @startuml
+
+class Index_html {
+  - width: int
+  - height: int
+  - mycanvas: canvas
+}
+
+
+
+package "bundle" #DDDDDD{
+
+class Main_js {
+  constGame
+  let my Game
+  myGame.start()          
+}
+
+
 class Game {
-  - levels: Level[]
+  - levels: int[]
+  - keydown_left: boolean
+  - keydown_right: boolean
+  - keydown_jump: boolean
+  - Eventlistener_left
+  - Eventlistener_right
+  - Eventlistener_jump
+  - width: int
+  - height: int
+  - current_level: int 
+  + drawMenu()
   + start()
   + update()
   + end()
+  + pause()
+  + updateFrames()
+  
 }
 
 class Level {
-  - platforms: Platform[]
-  - obstacles: Obstacle[]
-
+  - id: int 
+  - backround: Backround[]
+  - platform: Platform[]
+  + draw()
 }
 
 class Player {
-  - position: Position
-  - velocity: Velocity
-    + move()
+  - position_player_x: int
+  - position_player_y: int
+  - velocity_player: float
+  + draw()
+  + move()
   + jump()
+  + checkCollision()
 }
+
 
 class Platform {
-  - position: Position
+  - position_plattform_x: int 
+  - position_palttform_y: int
   - width: int
   - height: int
-  + update()
-  + updateFrames()
-}
-
-class Obstacle {
-  - position: Position
-  - width: int
-  - height: int
-  + update()
+  - velocity_position: int
+  - type: String
+  + draw()
+  + move()
 }
 
 
 
 Game --> Level
 Game --> Player
-Level --> Platform
-Level --> Obstacle
-Player --> Platform
-
+Level -|> Platform
+Main_js --> Game
+}
+Index_html -->bundle
 @enduml
