@@ -1,0 +1,45 @@
+@startuml
+class Game {
+  - levels: Level[]
+  + start()
+  + update()
+  + end()
+}
+
+class Level {
+  - platforms: Platform[]
+  - obstacles: Obstacle[]
+
+}
+
+class Player {
+  - position: Position
+  - velocity: Velocity
+    + move()
+  + jump()
+}
+
+class Platform {
+  - position: Position
+  - width: int
+  - height: int
+  + update()
+  + updateFrames()
+}
+
+class Obstacle {
+  - position: Position
+  - width: int
+  - height: int
+  + update()
+}
+
+
+
+Game --> Level
+Game --> Player
+Level --> Platform
+Level --> Obstacle
+Player --> Platform
+
+@enduml
