@@ -3,6 +3,8 @@
 const RandomWalkCircleElement = require('./randomwalkcircleelement')
 const ElementList = require('./elementlist')
 
+// DAS IST EIN NEUER TEST KOMMENTAR
+
 //----------------------
 
 module.exports = class Game {
