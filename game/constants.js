@@ -1,6 +1,6 @@
 const gameConstants = {
-  width: 960,
-  height: 540,
+  canvasWidth: 960,
+  canvasHeight: 540,
   gravity: 0.5
 }
 

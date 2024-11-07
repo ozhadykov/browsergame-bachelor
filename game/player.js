@@ -38,16 +38,20 @@ module.exports = class Player {
 
   checkForVerticalCollisions() {
     // simple checking, because we will use soon something better :)
-    if (this.position.y + this.height + this.velocity.y > gameConstants.height) {
+    if (this.position.y + this.height + this.velocity.y > gameConstants.canvasHeight) {
       this.velocity.y = 0
     }
   }
 
   checkForHorizontalCollisions() {
     // simple checking, because we will use soon something better :)
-    if (this.position.x + this.width + this.velocity.x > gameConstants.width ||
-      this.position.x + this.width + this.velocity.x < gameConstants.width) {
+    if (this.position.x + this.velocity.x < 0){
+      this.position.x = 0;
       this.velocity.x = 0
+    }
+    if (this.position.x + this.width + this.velocity.x > gameConstants.canvasWidth){
+      this.velocity.x = 0
+      this.position.x = gameConstants.canvasWidth - this.width
     }
   }
 
