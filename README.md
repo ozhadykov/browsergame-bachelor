@@ -3,7 +3,7 @@
 The browsergame-baseapp is a tiny client-side application that may serve as a starting point to develop your own browsergame. 
 It has an educational focus and provides some basic, object-oriented infrastructure. 
 
-![Screenshot](klassendiagramm.PNG)
+![Screenshot](klassendiagramm.png)
 
 How to start
 ------------
