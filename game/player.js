@@ -1,21 +1,54 @@
 "use strict"
 
-module.exports = class Element {
+const {gameConstants, ctx} = require('./constants.js')
 
-    drawPlayer(ctx, x, y) {
-        
-        ctx.clear;
-        ctx.beginPath();
-        ctx.fillStyle = "#fca400";
-        ctx.rect(x, y, 15, 15); 
-        ctx.fill();
-        ctx.closePath();
+module.exports = class Player {
+
+  constructor(params) {
+    this.position = params.position;
+    this.velocity = {
+      x: 0,
+      y: 1
     }
+    this.height = params.height;
+    this.width = params.width;
+  }
 
+  draw() {
+  }
 
+  update() {
 
-    checkCollision(element) {
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
 
+    // we will use it when we will get our game graphics
+    //this.draw();
+
+    this.position.x += this.velocity.x
+    this.checkForHorizontalCollisions()
+    this.applyGravity()
+    this.checkForVerticalCollisions()
+  }
+
+  applyGravity() {
+    this.position.y += this.velocity.y
+    this.velocity.y += gameConstants.gravity
+  }
+
+  checkForVerticalCollisions() {
+    // simple checking, because we will use soon something better :)
+    if (this.position.y + this.height + this.velocity.y > gameConstants.height) {
+      this.velocity.y = 0
     }
+  }
+
+  checkForHorizontalCollisions() {
+    // simple checking, because we will use soon something better :)
+    if (this.position.x + this.width + this.velocity.x > gameConstants.width ||
+      this.position.x + this.width + this.velocity.x < gameConstants.width) {
+      this.velocity.x = 0
+    }
+  }
 
 }

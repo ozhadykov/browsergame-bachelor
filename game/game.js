@@ -1,53 +1,91 @@
 "use strict"
 
-const player = require('./player')
-let playerdraw = new player()
-
-
-
-// DAS IST EIN NEUER TEST KOMMENTAR
-
-//----------------------
+const Player = require('./player.js')
+const {canvas, ctx} = require('./constants.js')
 
 module.exports = class Game {
 
-    constructor() {}
-
-    drawMenu() {
-
+  constructor() {
+    // request animation frame handle
+    this.raf = null
+    this.player = null
+    this.keys = {
+      d: {
+        pressed: false,
+      },
+      a: {
+        pressed: false,
+      }
     }
+  }
 
 
+  start() {
+    // this is important for animation purposes, do not need now
+    this.timeOfLastFrame = Date.now()
 
-    start() {
-        let mycanvas = window.document.getElementById("mycanvas")
+    // here we are requiring window to reload to max framerate possible
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
 
-        let ctx = mycanvas.getContext('2d')
+    // creating Player instance
+    this.player = new Player({
+      position: {
+        x: 100,
+        y: 0
+      },
+      height: 100,
+      width: 100,
+    })
 
-        playerdraw.drawPlayer(ctx, 1280 / 2, 720 / 2)
-    }
+    // listening to the keyboard events
+    window.addEventListener('keydown', (e) => {
+      switch (e.key) {
+        case 'd':
+          this.keys.d.pressed = true
+          break
+        case 'a':
+          this.keys.a.pressed = true
+          break
+        case 'w':
+          this.player.velocity.y = -8
+          break
+      }
+    })
+
+    window.addEventListener('keyup', (evt) => {
+      switch (evt.key) {
+        case 'd':
+          this.keys.d.pressed = false
+          break
+        case 'a':
+          this.keys.a.pressed = false
+          break
+      }
+    })
+  }
 
 
+  stop() {
+    window.cancelAnimationFrame(this.raf)
+  }
 
-    update() {
+  tick() {
+    //const myCanvas = window.document.getElementById("my-canvas")
+    //const ctx = myCanvas.getContext('2d')
 
-    }
+    //--- clear screen
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight)
 
+    // drawing elements
+    this.player.update()
 
+    // handling player moving on x-axis
+    this.player.velocity.x = 0
+    if (this.keys.d.pressed) this.player.velocity.x = 5
+    else if (this.keys.a.pressed) this.player.velocity.x = -5
 
-    end() {
-
-    }
-
-
-
-    pause() {
-
-    }
-
-
-
-    updateFrames() {
-
-    }
+    // calling animation function again
+    this.raf = window.requestAnimationFrame(this.tick.bind(this))
+  }
 }
