@@ -51,6 +51,7 @@ module.exports = class Game {
     const debugBtn = document.getElementById('show-state')
     debugBtn.addEventListener('click', () => {
       console.log(gameState)
+      console.log(this.keys)
     })
 
     // listening to the keyboard events
@@ -67,10 +68,9 @@ module.exports = class Game {
             startedPressingJump()
             console.log('pressed jumping')
             gameState.inJump = true
+            this.keys.w.pressed = true
             break
           }
-
-          this.keys.w.pressed = true
           break
       }
     })
