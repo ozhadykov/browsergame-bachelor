@@ -70,9 +70,6 @@ module.exports = class Game {
   }
 
   tick() {
-    //const myCanvas = window.document.getElementById("my-canvas")
-    //const ctx = myCanvas.getContext('2d')
-
     //--- clear screen
     ctx.fillStyle = 'white'
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight)
