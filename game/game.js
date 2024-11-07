@@ -66,7 +66,6 @@ module.exports = class Game {
         case 'w':
           if (!this.keys.w.pressed && gameState.canJump && !gameState.inJump) {
             startedPressingJump()
-            console.log('pressed jumping')
             gameState.inJump = true
             this.keys.w.pressed = true
             break
@@ -85,7 +84,6 @@ module.exports = class Game {
           break
         case 'w':
           if (gameState.canJump && gameState.inJump) {
-            console.log('stopped pressing')
             this.keys.w.pressed = false
             stoppedPressingJump()
             console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
