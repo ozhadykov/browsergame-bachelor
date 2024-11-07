@@ -6,6 +6,20 @@ const gameConstants = {
 
 const gameState = {
   canJump: true,
+  inJump: false
+}
+
+const gameHelpers = {
+  startTime: null,
+  endTime: null,
+}
+
+const startedPressingJump = () => {
+  gameHelpers.startTime = Date.now()
+}
+
+const stoppedPressingJump = () => {
+  gameHelpers.endTime = Date.now()
 }
 
 const canvas = document.getElementById('my-canvas')
@@ -15,5 +29,8 @@ module.exports = {
   gameConstants,
   canvas,
   ctx,
-  gameState
+  gameState,
+  startedPressingJump,
+  stoppedPressingJump,
+  gameHelpers
 };

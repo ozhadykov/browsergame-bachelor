@@ -4,7 +4,10 @@ const Player = require('./player.js')
 const {
   canvas,
   ctx,
-  gameState
+  gameState,
+  startedPressingJump,
+  stoppedPressingJump,
+  gameHelpers
 } = require('./constants.js')
 
 module.exports = class Game {
@@ -18,6 +21,9 @@ module.exports = class Game {
         pressed: false,
       },
       a: {
+        pressed: false,
+      },
+      w: {
         pressed: false,
       }
     }
@@ -41,6 +47,12 @@ module.exports = class Game {
       width: 100,
     })
 
+    // only debugging
+    const debugBtn = document.getElementById('show-state')
+    debugBtn.addEventListener('click', () => {
+      console.log(gameState)
+    })
+
     // listening to the keyboard events
     window.addEventListener('keydown', (e) => {
       switch (e.key) {
@@ -51,8 +63,14 @@ module.exports = class Game {
           this.keys.a.pressed = true
           break
         case 'w':
-          if (this.player.velocity.y === 0 && gameState.canJump)
-            this.player.velocity.y = -8
+          if (!this.keys.w.pressed && gameState.canJump && !gameState.inJump) {
+            startedPressingJump()
+            console.log('pressed jumping')
+            gameState.inJump = true
+            break
+          }
+
+          this.keys.w.pressed = true
           break
       }
     })
@@ -64,6 +82,18 @@ module.exports = class Game {
           break
         case 'a':
           this.keys.a.pressed = false
+          break
+        case 'w':
+          if (gameState.canJump && gameState.inJump) {
+            console.log('stopped pressing')
+            this.keys.w.pressed = false
+            stoppedPressingJump()
+            console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
+            console.log(Date.now() - gameHelpers.startTime)
+            // jump
+            this.player.velocity.y = -8
+            gameState.inJump = false
+          }
           break
       }
     })
