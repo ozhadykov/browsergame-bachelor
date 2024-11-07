@@ -1,7 +1,11 @@
 "use strict"
 
 const Player = require('./player.js')
-const {canvas, ctx} = require('./constants.js')
+const {
+  canvas,
+  ctx,
+  gameState
+} = require('./constants.js')
 
 module.exports = class Game {
 
@@ -47,7 +51,8 @@ module.exports = class Game {
           this.keys.a.pressed = true
           break
         case 'w':
-          this.player.velocity.y = -8
+          if (this.player.velocity.y === 0 && gameState.canJump)
+            this.player.velocity.y = -8
           break
       }
     })

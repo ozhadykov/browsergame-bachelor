@@ -1,6 +1,10 @@
 "use strict"
 
-const {gameConstants, ctx} = require('./constants.js')
+const {
+  gameConstants,
+  ctx,
+  gameState
+} = require('./constants.js')
 
 module.exports = class Player {
 
@@ -40,16 +44,19 @@ module.exports = class Player {
     // simple checking, because we will use soon something better :)
     if (this.position.y + this.height + this.velocity.y > gameConstants.canvasHeight) {
       this.velocity.y = 0
-    }
+      gameState.canJump = true
+    } else
+      gameState.canJump = false
+
   }
 
   checkForHorizontalCollisions() {
     // simple checking, because we will use soon something better :)
-    if (this.position.x + this.velocity.x < 0){
+    if (this.position.x + this.velocity.x < 0) {
       this.position.x = 0;
       this.velocity.x = 0
     }
-    if (this.position.x + this.width + this.velocity.x > gameConstants.canvasWidth){
+    if (this.position.x + this.width + this.velocity.x > gameConstants.canvasWidth) {
       this.velocity.x = 0
       this.position.x = gameConstants.canvasWidth - this.width
     }
