@@ -43,8 +43,8 @@ module.exports = class Game {
         x: 100,
         y: 0
       },
-      height: 100,
-      width: 100,
+      height: 50,
+      width: 50,
     })
 
     // only debugging
@@ -52,23 +52,25 @@ module.exports = class Game {
     debugBtn.addEventListener('click', () => {
       console.log(gameState)
       console.log(this.keys)
+      console.log(gameHelpers.jumpDuration)
     })
 
     // listening to the keyboard events
     window.addEventListener('keydown', (e) => {
       switch (e.key) {
         case 'd':
-          this.keys.d.pressed = true
+          this.keys.d.pressed = true,
+          gameState.lastPressedRight = true
           break
         case 'a':
-          this.keys.a.pressed = true
+          this.keys.a.pressed = true,
+          gameState.lastPressedRight = false
           break
         case 'w':
           if (!this.keys.w.pressed && gameState.canJump && !gameState.inJump) {
             startedPressingJump()
             gameState.inJump = true
             this.keys.w.pressed = true
-            break
           }
           break
       }
@@ -88,9 +90,17 @@ module.exports = class Game {
             stoppedPressingJump()
             console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
             console.log(Date.now() - gameHelpers.startTime)
+            gameHelpers.jumpDuration = gameHelpers.endTime - gameHelpers.startTime
+            this.player.velocity.y = -8 * (gameHelpers.jumpDuration * 0.005)
+            if(gameState.lastPressedRight) {
+              this.player.velocity.x = gameHelpers.jumpDuration * 0.05
+            } else {
+              this.player.velocity.x = -(gameHelpers.jumpDuration * 0.05)
+            }
+            
             // jump
-            this.player.velocity.y = -8
             gameState.inJump = false
+            
           }
           break
       }
@@ -111,9 +121,11 @@ module.exports = class Game {
     this.player.update()
 
     // handling player moving on x-axis
-    this.player.velocity.x = 0
-    if (this.keys.d.pressed) this.player.velocity.x = 5
-    else if (this.keys.a.pressed) this.player.velocity.x = -5
+    if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
+    if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
+    if (this.player.velocity.x < 0.2 && this.player.velocity.x > -0.2) this.player.velocity.x = 0
+    if (this.keys.d.pressed && gameState.canJump) this.player.velocity.x = 5
+    else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
 
     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))

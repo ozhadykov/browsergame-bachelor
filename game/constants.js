@@ -6,12 +6,14 @@ const gameConstants = {
 
 const gameState = {
   canJump: true,
-  inJump: false
+  inJump: false,
+  lastPressedRight: true,
 }
 
 const gameHelpers = {
   startTime: null,
   endTime: null,
+  jumpDuration: null, 
 }
 
 const startedPressingJump = () => {
@@ -21,6 +23,8 @@ const startedPressingJump = () => {
 const stoppedPressingJump = () => {
   gameHelpers.endTime = Date.now()
 }
+
+
 
 const canvas = document.getElementById('my-canvas')
 const ctx = canvas.getContext('2d')
