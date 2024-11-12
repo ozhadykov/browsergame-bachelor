@@ -26,7 +26,7 @@ const stoppedPressingJump = () => {
 
 
 
-const canvas = document.getElementById('my-canvas')
+const canvas = document.getElementById('mycanvas')
 const ctx = canvas.getContext('2d')
 
 module.exports = {
