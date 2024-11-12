@@ -24,11 +24,9 @@ Whenever a file changes, it automatically builds a new bundle.js.
 The latter command is included in package.json and hence can be started from tools like visual studio code.
 
 
-Hier ist der aktualisierte und formatierte Projektplan:
-
 ---
 
-**Projektplan: Browsergame - Bachelorarbeit**
+# **Projektplan: Browsergame - Bachelorarbeit**
 
 ---
 
@@ -72,5 +70,3 @@ Hier ist der aktualisierte und formatierte Projektplan:
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
 
 ---
-
-Gib Bescheid, falls du weitere Anpassungen benötigst!
