@@ -3,4 +3,4 @@ private/*
 .idea
 .vscode
 .DS_store
-/public/bundle.js
+./public/bundle.js

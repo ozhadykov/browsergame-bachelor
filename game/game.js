@@ -120,6 +120,7 @@ module.exports = class Game {
     // drawing elements
     this.player.update()
 
+    ctx.fillRect(300, 510, 120, 30)
     // handling player moving on x-axis
     if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
     if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
