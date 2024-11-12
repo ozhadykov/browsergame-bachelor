@@ -52,6 +52,7 @@ module.exports = class Game {
     debugBtn.addEventListener('click', () => {
       console.log(gameState)
       console.log(this.keys)
+      console.log('test')
       console.log(gameHelpers.jumpDuration)
     })
 
