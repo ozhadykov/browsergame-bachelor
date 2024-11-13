@@ -72,4 +72,3 @@ module.exports = class Game {
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 }
-
