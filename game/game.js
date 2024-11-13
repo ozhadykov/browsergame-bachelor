@@ -138,12 +138,12 @@ module.exports = class Game {
    
     // Zeichne alle floorblocks
     collisionBlocks.forEach(block => {
-        block.update(); 
+        block.update()
     });
     
     // Zeichne alle platformblocks
       platformCollisionBlocks.forEach(block => {
-        block.update(); 
+        block.update() 
     });
   
     //requestAnimationFrame(draw); // Für Animationsschleife
