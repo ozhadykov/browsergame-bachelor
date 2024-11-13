@@ -66,7 +66,7 @@ The latter command is included in package.json and hence can be started from too
    - Entwurf des Hauptmenüs für das Spiel.
 
 4. **Entwurf der Plattform-Kollision**  
-   - **Zuständig:** Inke  
+   - **Zuständig:** Imke  
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
 
 ---
