@@ -1,13 +1,16 @@
 "use strict"
 
 const Player = require('./player.js')
+const Platform = require('./platform.js')
 const {
   canvas,
   ctx,
   gameState,
   startedPressingJump,
   stoppedPressingJump,
-  gameHelpers
+  gameHelpers,
+  floor,
+  platform
 } = require('./constants.js')
 
 module.exports = class Game {
@@ -47,6 +50,63 @@ module.exports = class Game {
       width: 50,
     })
 
+// drawing floor and platforms
+  //teilt floorArray ist gleichlange Arrays der Canvasbreite   
+  const floorCollisions2D = []
+for (let i = 0; i < floor.length; i += 32) {
+  floorCollisions2D.push(floor.slice(i, i + 32))
+}
+
+//teilt die gleichlangen Arrays der Canvasbreite in floor-platforms
+const collisionBlocks = []
+floorCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
+    if (symbol === 1) {
+      collisionBlocks.push(
+        new Platform({
+          position: {
+            x: x * 30,
+            y: y * 30,
+          },
+        })
+      )
+    }
+  })
+})
+
+//teilt platform-Array ist gleichlange Arrays der Canvasbreite   
+const platformCollisions2D = []
+for (let i = 0; i < platform.length; i += 32) {
+  platformCollisions2D.push(platform.slice(i, i + 32))
+}
+
+//teilt die gleichlangen Arrays der Canvasbreite in platforms
+const platformCollisionBlocks = []
+platformCollisions2D.forEach((row, y) => {
+  row.forEach((symbol, x) => {
+    if (symbol === 1) {
+      platformCollisionBlocks.push(
+        new Platform({
+          position: {
+            x: x * 30,
+            y: y * 30,
+          },
+        })
+      )
+    }
+  })
+})
+  
+  // Zeichne alle floorblocks
+  collisionBlocks.forEach(block => {
+      block.draw(ctx); 
+  });
+  
+  // Zeichne alle platformblocks
+    platformCollisionBlocks.forEach(block => {
+      block.draw(ctx); 
+  });
+    
     // only debugging
     const debugBtn = document.getElementById('show-state')
     debugBtn.addEventListener('click', () => {
