@@ -4,11 +4,13 @@ const Player = require('./player.js')
 const {
   canvas,
   ctx,
+  pausedConstants,
   gameState,
   startedPressingJump,
   stoppedPressingJump,
   gameHelpers
 } = require('./constants.js')
+
 
 module.exports = class Game {
 
@@ -26,6 +28,7 @@ module.exports = class Game {
       w: {
         pressed: false,
       }
+
     }
   }
 
@@ -75,6 +78,19 @@ module.exports = class Game {
           }
           break
       }
+      //Pause-Menü
+      if(e.key === 'Escape'){ //Pausenmenü öffnen
+        showPauseMenu();
+        pausedConstants.pausedPlayerVelocityX = this.player.velocity.x
+        this.player.velocity.x = 0
+        console.log("TestX")
+      }
+      if(e.key === 'Enter'){ // Pausenmenü schließen
+        closePauseMenu();
+        this.player.velocity.x = pausedConstants.pausedPlayerVelocityX
+        console.log("TestY")
+      }
+
     })
 
     window.addEventListener('keyup', (evt) => {
@@ -132,4 +148,15 @@ module.exports = class Game {
     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
+}
+
+//Pause-Menü
+function showPauseMenu() {
+  canvas.style.display = "none"; // Spiel verschwindet
+  pauseMenu.style.display = 'block'; // Pausenmenü sichtbar machen
+  console.log("Test2")
+}
+function closePauseMenu() {
+  pauseMenu.style.display = 'none'; // Pausenmenü unsichtbar machen
+  canvas.style.display = 'block'; // Spiel wieder sichtbar
 }
