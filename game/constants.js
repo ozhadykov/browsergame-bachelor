@@ -1,3 +1,5 @@
+const Platform = require("./platform")
+
 const gameConstants = {
   canvasWidth: 960,
   canvasHeight: 540,
@@ -23,7 +25,6 @@ const startedPressingJump = () => {
 const stoppedPressingJump = () => {
   gameHelpers.endTime = Date.now()
 }
-
 
 const canvas = document.getElementById('mycanvas')
 const ctx = canvas.getContext('2d')
@@ -70,6 +71,52 @@ const platform = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
 
+ //teilt floorArray ist gleichlange Arrays der Canvasbreite   
+ const floorCollisions2D = []
+ for (let i = 0; i < floor.length; i += 32) {
+   floorCollisions2D.push(floor.slice(i, i + 32))
+ }
+ 
+ //teilt die gleichlangen Arrays der Canvasbreite in floor-platforms
+ const collisionBlocks = []
+ floorCollisions2D.forEach((row, y) => {
+   row.forEach((symbol, x) => {
+     if (symbol === 1) {
+       collisionBlocks.push(
+         new Platform({
+           position: {
+             x: x * 30,
+             y: y * 30,
+           },
+         })
+       )
+     }
+   })
+ })
+ 
+ //teilt platform-Array ist gleichlange Arrays der Canvasbreite   
+ const platformCollisions2D = []
+ for (let i = 0; i < platform.length; i += 32) {
+   platformCollisions2D.push(platform.slice(i, i + 32))
+ }
+ 
+ //teilt die gleichlangen Arrays der Canvasbreite in platforms
+ const platformCollisionBlocks = []
+ platformCollisions2D.forEach((row, y) => {
+   row.forEach((symbol, x) => {
+     if (symbol === 1) {
+       platformCollisionBlocks.push(
+         new Platform({
+           position: {
+             x: x * 30,
+             y: y * 30,
+           },
+         })
+       )
+     }
+   })
+ })
+
 
 
 module.exports = {
@@ -82,5 +129,8 @@ module.exports = {
   gameHelpers,
   floor,
   platform,
-  
+  floorCollisions2D,
+  collisionBlocks,
+  platformCollisions2D,
+  platformCollisionBlocks
   };
