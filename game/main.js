@@ -1,5 +1,15 @@
-"use strict"
+"use strict";
+const mainmenu1 = document.getElementById("mainmenu");
+const mycanvas = document.getElementById("mycanvas"); 
+const Game = require("./game");
+let myGame = new Game();
 
-const Game = require("./game")
-let myGame = new Game()
-myGame.start()
+mycanvas.style.display = "none"; 
+
+function mainmenu() {
+    mycanvas.style.display = "block";
+    mainmenu1.style.display = "none"; 
+    myGame.start();
+}
+
+document.getElementById("startbutton").onclick = mainmenu;

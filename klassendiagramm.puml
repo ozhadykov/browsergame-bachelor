@@ -34,29 +34,32 @@ class Game {
   + end()
   + pause()
   + updateFrames()
-  
+  + tick()
+
 }
 
 class Level {
-  - id: int 
+  - id: int
   - backround: Backround[]
   - platform: Platform[]
   + draw()
 }
 
 class Player {
-  - position_player_x: int
-  - position_player_y: int
-  - velocity_player: float
-  + draw()
-  + move()
-  + jump()
-  + checkCollision()
+  - position.x: int
+  - position.y: int
+  - velocity_player: int
+  - height
+  - width
+  + update()
+  + checkForVerticalCollision()
+  + checkForHorizontalCollision()
+  + applyGravity()
 }
 
 
 class Platform {
-  - position_plattform_x: int 
+  - position_plattform_x: int
   - position_palttform_y: int
   - width: int
   - height: int
@@ -66,12 +69,22 @@ class Platform {
   + move()
 }
 
+class Constants {
+  + gameConstants
+  + gameState
+  + gameHelpers
+  + startedPressingJump
+  + stoppedPressingJump
+}
+
 
 
 Game --> Level
 Game --> Player
 Level -|> Platform
 Main_js --> Game
+Constants -->Game
+Constants --> Player
 }
 Index_html -->bundle
 @enduml
