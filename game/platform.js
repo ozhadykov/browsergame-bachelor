@@ -1,7 +1,7 @@
 "use strict"
 const {
     ctx
-} = require('./platform.js')
+} = require('./constants.js')
 
 const BaseGameElementelement = require("./element")
         
