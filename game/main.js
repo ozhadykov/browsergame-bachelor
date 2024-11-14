@@ -1,8 +1,10 @@
-"use strict"
-
+"use strict";
 const mainmenu1 = document.getElementById("mainmenu");
-const Game = require("./game")
-let myGame = new Game()
+const mycanvas = document.getElementById("mycanvas"); 
+const Game = require("./game");
+let myGame = new Game();
+
+
 
 mycanvas.style.display = "none"; 
 
