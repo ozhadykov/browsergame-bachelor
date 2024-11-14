@@ -70,7 +70,7 @@ The latter command is included in package.json and hence can be started from too
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
 
 5. **Entwurf des Pausemenüs**
-   - **Zuständig:** Jaul F
+   - **Zuständig:** Paul F
    - Entwurf des Hauptmenüs für das Spiel
 
 ---
