@@ -6,7 +6,15 @@ const {
   gameState
 } = require('./constants.js')
 
-module.exports = class Player {
+const startedPressingJump = () => {
+  gameHelpers.startTime = Date.now()
+}
+
+const stoppedPressingJump = () => {
+  gameHelpers.endTime = Date.now()
+}
+
+module.exports = class Player extends element {
 
   constructor(params) {
     this.position = params.position;
@@ -18,10 +26,71 @@ module.exports = class Player {
     this.width = params.width;
   }
 
-  draw() {
+action() {
+  
+  window.addEventListener('keydown', (e) => {
+    switch (e.key) {
+      case 'd':
+        this.keys.d.pressed = true,
+        gameState.lastPressedRight = true
+        break
+      case 'a':
+        this.keys.a.pressed = true,
+        gameState.lastPressedRight = false
+        break
+      case 'w':
+        if (!this.keys.w.pressed && gameState.canJump && !gameState.inJump) {
+          startedPressingJump()
+          gameState.inJump = true
+          this.keys.w.pressed = true
+        }
+        break
+    }
+  })
+
+  window.addEventListener('keyup', (evt) => {
+    switch (evt.key) {
+      case 'd':
+        this.keys.d.pressed = false
+        break
+      case 'a':
+        this.keys.a.pressed = false
+        break
+      case 'w':
+        if (gameState.canJump && gameState.inJump) {
+          this.keys.w.pressed = false
+          stoppedPressingJump()
+          console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
+          console.log(Date.now() - gameHelpers.startTime)
+          gameHelpers.jumpDuration = gameHelpers.endTime - gameHelpers.startTime
+          this.player.velocity.y = -8 * (gameHelpers.jumpDuration * 0.005)
+          if(gameState.lastPressedRight) {
+            this.player.velocity.x = gameHelpers.jumpDuration * 0.05
+          } else {
+            this.player.velocity.x = -(gameHelpers.jumpDuration * 0.05)
+          }
+          
+          // jump
+          gameState.inJump = false
+          
+        }
+        break
+    }
+  })
+
+
+    if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
+    if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
+    if (this.player.velocity.x < 0.2 && this.player.velocity.x > -0.2) this.player.velocity.x = 0
+    if (this.keys.d.pressed && gameState.canJump) this.player.velocity.x = 5
+    else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
   }
 
-  update() {
+
+  
+
+  @Override
+  draw() {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
@@ -37,46 +106,13 @@ module.exports = class Player {
     //this.draw();
 
     this.position.x += this.velocity.x
-    this.checkForHorizontalCollisions()
+    super.checkForHorizontalCollisions()
     this.applyGravity()
-    this.checkForVerticalCollisions()
+    super.checkForVerticalCollisions()
   }
 
   applyGravity() {
     this.position.y += this.velocity.y
     this.velocity.y += gameConstants.gravity
   }
-
-  checkForVerticalCollisions() {
-    // simple checking, because we will use soon something better :)
-    if (this.position.y + this.height + this.velocity.y > gameConstants.canvasHeight) {
-      this.velocity.y = 0
-      gameState.canJump = true
-    } else
-      gameState.canJump = false
-
-  }
-
-  checkForHorizontalCollisions() {
-    // simple checking, because we will use soon something better :)
-    if (!gameState.canJump) {
-      if (this.position.x + this.velocity.x < 0) {
-        this.position.x = 0;
-        this.velocity.x = -this.velocity.x
-      }
-      if (this.position.x + this.width + this.velocity.x > gameConstants.canvasWidth) {
-        this.velocity.x = -this.velocity.x
-        this.position.x = gameConstants.canvasWidth - this.width
-      }  
-    } else {
-      if (this.position.x + this.velocity.x < 0) {
-        this.position.x = 0;
-        this.velocity.x = 0
-      }
-      if (this.position.x + this.width + this.velocity.x > gameConstants.canvasWidth) {
-        this.velocity.x = 0
-        this.position.x = gameConstants.canvasWidth - this.width
-      }  
-    }
-  } 
 }

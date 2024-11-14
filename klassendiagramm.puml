@@ -18,17 +18,12 @@ class Main_js {
 
 
 class Game {
+  + gameConstants
+  + gameState
+  + gameHelpers
   - levels: int[]
-  - keydown_left: boolean
-  - keydown_right: boolean
-  - keydown_jump: boolean
-  - Eventlistener_left
-  - Eventlistener_right
-  - Eventlistener_jump
-  - width: int
-  - height: int
   - current_level: int 
-  + drawMenu()
+  + mainmenu()
   + start()
   + update()
   + end()
@@ -38,53 +33,50 @@ class Game {
 
 }
 
-class Level {
-  - id: int
-  - backround: Backround[]
-  - platform: Platform[]
-  + draw()
-}
 
 class Player {
-  - position.x: int
-  - position.y: int
-  - velocity_player: int
-  - height
-  - width
-  + update()
-  + checkForVerticalCollision()
-  + checkForHorizontalCollision()
+  - keydown_left: boolean
+  - keydown_right: boolean
+  - keydown_jump: boolean
+  - Eventlistener_left
+  - Eventlistener_right
+  - Eventlistener_jump
+  + startedPressingJump
+  + stoppedPressingJump
   + applyGravity()
+  + move()
+}
+
+class elementList {
+  + add(element)
+  + get(i)
+  + delete(i)
+  + draw(ctx)
+  + action()
+  + checkCollision(element)
+}
+
+class element {
+  - positionX: int 
+  - positionY: int 
+  - width: int
+  - height: int
+  + draw()
+  + checkCollision(element)
 }
 
 
 class Platform {
-  - position_plattform_x: int
-  - position_palttform_y: int
-  - width: int
-  - height: int
-  - velocity_position: int
   - type: String
-  + draw()
-  + move()
-}
-
-class Constants {
-  + gameConstants
-  + gameState
-  + gameHelpers
-  + startedPressingJump
-  + stoppedPressingJump
 }
 
 
 
-Game --> Level
-Game --> Player
-Level -|> Platform
+Game --> elementList
+elementList --> element
+Player -|>element
+Platform -|> element
 Main_js --> Game
-Constants -->Game
-Constants --> Player
 }
 Index_html -->bundle
 @enduml

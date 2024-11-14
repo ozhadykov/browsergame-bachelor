@@ -1,6 +1,7 @@
 "use strict"
 
 const Player = require('./player.js')
+<<<<<<< Updated upstream
 const {
   canvas,
   ctx,
@@ -9,6 +10,30 @@ const {
   stoppedPressingJump,
   gameHelpers
 } = require('./constants.js')
+=======
+const Platform = require("./platform")
+const ElementList = require('./elementList')
+const gameConstants = {
+  canvasWidth: 960,
+  canvasHeight: 540,
+  gravity: 0.5
+}
+
+const gameState = {
+  canJump: true,
+  inJump: false,
+  lastPressedRight: true,
+}
+
+const gameHelpers = {
+  startTime: null,
+  endTime: null,
+  jumpDuration: null, 
+}
+
+const canvas = document.getElementById('mycanvas')
+const ctx = canvas.getContext('2d')
+>>>>>>> Stashed changes
 
 module.exports = class Game {
 
@@ -31,6 +56,12 @@ module.exports = class Game {
 
 
   start() {
+    //fill all elements in element List:
+    this.elementList = new ElementList()
+  /*   for(int i = 0; i <= ; i++) {
+        this.elementList.add(new )
+    } */
+
     // this is important for animation purposes, do not need now
     this.timeOfLastFrame = Date.now()
 
@@ -55,57 +86,6 @@ module.exports = class Game {
       console.log('test')
       console.log(gameHelpers.jumpDuration)
     })
-
-    // listening to the keyboard events
-    window.addEventListener('keydown', (e) => {
-      switch (e.key) {
-        case 'd':
-          this.keys.d.pressed = true,
-          gameState.lastPressedRight = true
-          break
-        case 'a':
-          this.keys.a.pressed = true,
-          gameState.lastPressedRight = false
-          break
-        case 'w':
-          if (!this.keys.w.pressed && gameState.canJump && !gameState.inJump) {
-            startedPressingJump()
-            gameState.inJump = true
-            this.keys.w.pressed = true
-          }
-          break
-      }
-    })
-
-    window.addEventListener('keyup', (evt) => {
-      switch (evt.key) {
-        case 'd':
-          this.keys.d.pressed = false
-          break
-        case 'a':
-          this.keys.a.pressed = false
-          break
-        case 'w':
-          if (gameState.canJump && gameState.inJump) {
-            this.keys.w.pressed = false
-            stoppedPressingJump()
-            console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
-            console.log(Date.now() - gameHelpers.startTime)
-            gameHelpers.jumpDuration = gameHelpers.endTime - gameHelpers.startTime
-            this.player.velocity.y = -8 * (gameHelpers.jumpDuration * 0.005)
-            if(gameState.lastPressedRight) {
-              this.player.velocity.x = gameHelpers.jumpDuration * 0.05
-            } else {
-              this.player.velocity.x = -(gameHelpers.jumpDuration * 0.05)
-            }
-            
-            // jump
-            gameState.inJump = false
-            
-          }
-          break
-      }
-    })
   }
 
 
@@ -119,8 +99,9 @@ module.exports = class Game {
     ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight)
 
     // drawing elements
-    this.player.update()
+    this.player.draw()()
 
+<<<<<<< Updated upstream
     ctx.fillRect(300, 510, 120, 30)
     // handling player moving on x-axis
     if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
@@ -130,6 +111,10 @@ module.exports = class Game {
     else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
 
     // calling animation function again
+=======
+  
+     // calling animation function again
+>>>>>>> Stashed changes
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 }
