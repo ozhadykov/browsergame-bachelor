@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = class baseGameElement {
+module.exports = class BaseGameElement {
 
     constructor(params) {
         this.position = params.position;

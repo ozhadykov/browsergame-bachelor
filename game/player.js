@@ -23,9 +23,9 @@ const gameHelpers = {
   jumpDuration: null, 
 }
 
-const baseGameElement = require('./element.js')
+const BaseGameElement = require('./element.js')
 
-module.exports = class Player extends baseGameElement {
+module.exports = class Player extends BaseGameElement {
 
   constructor(params) {
     super(params)

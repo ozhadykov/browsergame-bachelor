@@ -1,6 +1,6 @@
 "use strict"
 
-const element = require("./element")
+const BaseGameElementelement = require("./element")
         
 const floor = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -49,7 +49,7 @@ const platform = [
 
 
 //requestAnimationFrame(draw); // Für Animationsschleif
-module.exports = class Platform extends element {
+module.exports = class Platform extends BaseGameElementelement {
 
     createGrid() {
         //teilt floorArray ist gleichlange Arrays der Canvasbreite   
