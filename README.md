@@ -58,15 +58,29 @@ The latter command is included in package.json and hence can be started from too
    - Erstellen eines Entwurfs für die Karte im Tile-Format.
 
 2. **Spielerentwurf (PNG)**  
-   - **Zuständig:** [Name hier eintragen]  
+   - **Zuständig:** Simon   
    - Gestaltung eines grundlegenden PNG-Bilds für den Spieler.
 
 3. **Hauptmenü**  
-   - **Zuständig:** Paul  
+   - **Zuständig:** Paul J.
    - Entwurf des Hauptmenüs für das Spiel.
 
 4. **Entwurf der Plattform-Kollision**  
    - **Zuständig:** Inke  
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
 
+5. **Entwurf des Pausemenüs**
+   - **Zuständig:** Jaul F
+   - Entwurf des Hauptmenüs für das Spiel
+
 ---
+
+
+### Aufgaben (noch nicht zugeteilt)
+**Ziel:** langfristig / iterativ
+
+Idee des Objektorieterten Programmierens einearbeiten
+
+- Prinzip des kleinsten Zugriffs
+- Zusammenfügen von gemeinsamkeiten in Oberklassen (Siehe framework)
+- 
