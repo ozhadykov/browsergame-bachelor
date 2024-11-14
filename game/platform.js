@@ -1,4 +1,7 @@
 "use strict"
+const {
+    ctx
+} = require('./platform.js')
 
 const BaseGameElementelement = require("./element")
         
