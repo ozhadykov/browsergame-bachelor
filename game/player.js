@@ -1,11 +1,5 @@
 "use strict"
 
-const {
-  gameConstants,
-  ctx,
-  gameState
-} = require('./constants.js')
-
 const startedPressingJump = () => {
   gameHelpers.startTime = Date.now()
 }
@@ -14,16 +8,44 @@ const stoppedPressingJump = () => {
   gameHelpers.endTime = Date.now()
 }
 
-module.exports = class Player extends element {
+const gravity = 0.5
+
+
+const gameState = {
+  canJump: true,
+  inJump: false,
+  lastPressedRight: true,
+}
+
+const gameHelpers = {
+  startTime: null,
+  endTime: null,
+  jumpDuration: null, 
+}
+
+const baseGameElement = require('./element.js')
+
+module.exports = class Player extends baseGameElement {
 
   constructor(params) {
-    this.position = params.position;
+    super(params)
     this.velocity = {
       x: 0,
       y: 1
     }
-    this.height = params.height;
-    this.width = params.width;
+    this.lastPressedRight = false
+    this.keys = {
+      d: {
+        pressed: false,
+      },
+      a: {
+        pressed: false,
+      },
+      w: {
+        pressed: false,
+      }
+    }
+    
   }
 
 action() {
@@ -63,11 +85,11 @@ action() {
           console.log('end time var', gameHelpers.endTime - gameHelpers.startTime)
           console.log(Date.now() - gameHelpers.startTime)
           gameHelpers.jumpDuration = gameHelpers.endTime - gameHelpers.startTime
-          this.player.velocity.y = -8 * (gameHelpers.jumpDuration * 0.005)
+          this.velocity.y = -8 * (gameHelpers.jumpDuration * 0.005)
           if(gameState.lastPressedRight) {
-            this.player.velocity.x = gameHelpers.jumpDuration * 0.05
+            this.velocity.x = gameHelpers.jumpDuration * 0.05
           } else {
-            this.player.velocity.x = -(gameHelpers.jumpDuration * 0.05)
+            this.velocity.x = -(gameHelpers.jumpDuration * 0.05)
           }
           
           // jump
@@ -79,18 +101,44 @@ action() {
   })
 
 
-    if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
-    if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
-    if (this.player.velocity.x < 0.2 && this.player.velocity.x > -0.2) this.player.velocity.x = 0
-    if (this.keys.d.pressed && gameState.canJump) this.player.velocity.x = 5
-    else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
+    if (this.velocity.x > 0) this.velocity.x -= 0.2
+    if (this.velocity.x < 0) this.velocity.x += 0.2
+    if (this.velocity.x < 0.2 && this.velocity.x > -0.2) this.velocity.x = 0
+    if (this.keys.d.pressed && gameState.canJump) this.velocity.x = 5
+    else if (this.keys.a.pressed && gameState.canJump) this.velocity.x = -5
   }
+
+  checkCollisions(ctx, canvas) {
+    // simple checking, because we will use soon something better :)
+    if (this.position.y + this.height + this.velocity.y > canvas.height) {
+        this.velocity.y = 0
+        gameState.canJump = true
+    } else
+        gameState.canJump = false
+    if (this.position.x + this.velocity.x < 0) {
+        this.position.x = 0;
+        this.velocity.x = -this.velocity.x
+    }
+    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+        this.velocity.x = -this.velocity.x
+        this.position.x = canvas.width - this.width
+    }
+
+    if (this.position.x + this.velocity.x < 0) {
+        this.position.x = 0;
+        this.velocity.x = 0
+    }
+    if (this.position.x + this.width + this.velocity.x > canvas.width) {
+        this.velocity.x = 0
+        this.position.x = canvas.width - this.width
+    }
+
+}
 
 
   
 
-  @Override
-  draw() {
+  draw(ctx, canvas) {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
@@ -106,13 +154,13 @@ action() {
     //this.draw();
 
     this.position.x += this.velocity.x
-    super.checkForHorizontalCollisions()
+    this.checkCollisions(ctx, canvas)
     this.applyGravity()
-    super.checkForVerticalCollisions()
+    //checkForVerticalCollisions()
   }
 
   applyGravity() {
     this.position.y += this.velocity.y
-    this.velocity.y += gameConstants.gravity
+    this.velocity.y += gravity
   }
 }

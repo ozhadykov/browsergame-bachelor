@@ -1,39 +1,9 @@
 "use strict"
 
 const Player = require('./player.js')
-<<<<<<< Updated upstream
-const {
-  canvas,
-  ctx,
-  gameState,
-  startedPressingJump,
-  stoppedPressingJump,
-  gameHelpers
-} = require('./constants.js')
-=======
 const Platform = require("./platform")
 const ElementList = require('./elementList')
-const gameConstants = {
-  canvasWidth: 960,
-  canvasHeight: 540,
-  gravity: 0.5
-}
 
-const gameState = {
-  canJump: true,
-  inJump: false,
-  lastPressedRight: true,
-}
-
-const gameHelpers = {
-  startTime: null,
-  endTime: null,
-  jumpDuration: null, 
-}
-
-const canvas = document.getElementById('mycanvas')
-const ctx = canvas.getContext('2d')
->>>>>>> Stashed changes
 
 module.exports = class Game {
 
@@ -41,17 +11,9 @@ module.exports = class Game {
     // request animation frame handle
     this.raf = null
     this.player = null
-    this.keys = {
-      d: {
-        pressed: false,
-      },
-      a: {
-        pressed: false,
-      },
-      w: {
-        pressed: false,
-      }
-    }
+    this.canvas = document.getElementById('mycanvas')
+    this.ctx = this.canvas.getContext('2d')
+    this.elementList = null
   }
 
 
@@ -95,26 +57,18 @@ module.exports = class Game {
 
   tick() {
     //--- clear screen
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, canvas.clientWidth, canvas.clientHeight)
+    this.ctx.fillStyle = 'white'
+    this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
 
     // drawing elements
-    this.player.draw()()
+    this.player.draw(this.ctx, this.canvas)
 
-<<<<<<< Updated upstream
-    ctx.fillRect(300, 510, 120, 30)
-    // handling player moving on x-axis
-    if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
-    if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
-    if (this.player.velocity.x < 0.2 && this.player.velocity.x > -0.2) this.player.velocity.x = 0
-    if (this.keys.d.pressed && gameState.canJump) this.player.velocity.x = 5
-    else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
+    this.ctx.fillRect(300, 510, 120, 30)
+    this.player.action()
 
     // calling animation function again
-=======
   
      // calling animation function again
->>>>>>> Stashed changes
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 }

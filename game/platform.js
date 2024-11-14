@@ -1,17 +1,7 @@
 "use strict"
 
-<<<<<<< Updated upstream
-module.exports = class Element {
-
-    draw(ctx) {
+const element = require("./element")
         
-    }
-
-
-
-    move() {
-        
-=======
 const floor = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -131,7 +121,6 @@ module.exports = class Platform extends element {
     draw(ctx) {
         ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
         ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
->>>>>>> Stashed changes
     }
 }
 
