@@ -5,6 +5,7 @@ const gameConstants = {
   gravity: 0.5
 }
 const pausedConstants = { //Speichern der Bewegung vor Pause
+  pressedPause: false,
   pausedPlayerVelocityX: 0
 }
 
