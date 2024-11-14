@@ -66,15 +66,15 @@ The latter command is included in package.json and hence can be started from too
    - Entwurf des Hauptmenüs für das Spiel.
 
 4. **Entwurf der Plattform-Kollision**  
-   - **Zuständig:** Inke  
+   - **Zuständig:** Imke  
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
+
 
 5. **Entwurf des Pausemenüs**
    - **Zuständig:** Paul F
    - Entwurf des Hauptmenüs für das Spiel
 
 ---
-
 
 ### Aufgaben (noch nicht zugeteilt)
 **Ziel:** langfristig / iterativ
@@ -83,4 +83,3 @@ Idee des Objektorieterten Programmierens einearbeiten
 
 - Prinzip des kleinsten Zugriffs
 - Zusammenfügen von gemeinsamkeiten in Oberklassen (Siehe framework)
-- 

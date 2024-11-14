@@ -1,13 +1,16 @@
 "use strict"
 
 const Player = require('./player.js')
+const Platform = require("./platform")
 const {
   canvas,
   ctx,
   gameState,
   startedPressingJump,
   stoppedPressingJump,
-  gameHelpers
+  gameHelpers,
+  floor,
+  platform   
 } = require('./constants.js')
 
 module.exports = class Game {
@@ -47,7 +50,7 @@ module.exports = class Game {
       width: 50,
     })
 
-    // only debugging
+            // only debugging
     const debugBtn = document.getElementById('show-state')
     debugBtn.addEventListener('click', () => {
       console.log(gameState)
@@ -121,15 +124,76 @@ module.exports = class Game {
     // drawing elements
     this.player.update()
 
-    ctx.fillRect(300, 510, 120, 30)
+    //ctx.fillRect(300, 510, 120, 30)
     // handling player moving on x-axis
     if (this.player.velocity.x > 0) this.player.velocity.x -= 0.2
     if (this.player.velocity.x < 0) this.player.velocity.x += 0.2
     if (this.player.velocity.x < 0.2 && this.player.velocity.x > -0.2) this.player.velocity.x = 0
     if (this.keys.d.pressed && gameState.canJump) this.player.velocity.x = 5
     else if (this.keys.a.pressed && gameState.canJump) this.player.velocity.x = -5
+  
+     // drawing floor and platforms
+   
+ //teilt floorArray ist gleichlange Arrays der Canvasbreite   
+ const floorCollisions2D = []
+ for (let i = 0; i < floor.length; i += 32) {
+   floorCollisions2D.push(floor.slice(i, i + 32))
+ }
+ 
+ //teilt die gleichlangen Arrays der Canvasbreite in floor-platforms
+ const collisionBlocks = []
+ floorCollisions2D.forEach((row, y) => {
+   row.forEach((symbol, x) => {
+     if (symbol === 1) {
+        collisionBlocks.push(
+         new Platform({
+           position: {
+             x: x * 30,
+             y: y * 30,
+           },
+         })
+       )
+     }
+   })
+ })
+ 
+ //teilt platform-Array ist gleichlange Arrays der Canvasbreite   
+ const platformCollisions2D = []
+ for (let i = 0; i < platform.length; i += 32) {
+   platformCollisions2D.push(platform.slice(i, i + 32))
+ }
+ 
+ //teilt die gleichlangen Arrays der Canvasbreite in platforms
+ const platformCollisionBlocks = []
+ platformCollisions2D.forEach((row, y) => {
+   row.forEach((symbol, x) => {
+     if (symbol === 1) {
+       platformCollisionBlocks.push(
+         new Platform({
+           position: {
+             x: x * 30,
+             y: y * 30,
+           },
+         })
+       )
+     }
+   })
+ })
 
-    // calling animation function again
+
+    // Zeichne alle floorblocks
+    collisionBlocks.forEach(block => {
+        block.update()
+    });
+    
+    // Zeichne alle platformblocks
+      platformCollisionBlocks.forEach(block => {
+        block.update() 
+    });
+  
+    //requestAnimationFrame(draw); // Für Animationsschleife
+  
+     // calling animation function again
     this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 }
