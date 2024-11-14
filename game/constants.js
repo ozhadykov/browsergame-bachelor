@@ -4,6 +4,10 @@ const gameConstants = {
   canvasHeight: 540,
   gravity: 0.5
 }
+const pausedConstants = { //Speichern der Bewegung vor Pause
+  pressedPause: false,
+  pausedPlayerVelocityX: 0
+}
 
 const gameState = {
   canJump: true,
@@ -74,6 +78,7 @@ const platform = [
 
 module.exports = {
   gameConstants,
+  pausedConstants,
   canvas,
   ctx,
   gameState,
