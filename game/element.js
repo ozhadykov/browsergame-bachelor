@@ -11,9 +11,9 @@ module.exports = class BaseGameElement {
     action() { }
 
     draw(ctx, r, g, b, a, x, y, width, height) {
-        ctx.fillStyle = 'rgba(r, g, b, a)'
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
         ctx.fillRect(x, y, width, height)
-        ctx.fillStyle = 'rgba(r, g, b, a)'
+        ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a})`
     }
 
 

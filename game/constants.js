@@ -25,9 +25,6 @@ const stoppedPressingJump = () => {
   gameHelpers.endTime = Date.now()
 }
 
-const canvas = document.getElementById('mycanvas')
-const ctx = canvas.getContext('2d')
-
 const floor = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  
@@ -74,8 +71,6 @@ const platform = [
 
 module.exports = {
   gameConstants,
-  canvas,
-  ctx,
   gameState,
   startedPressingJump,
   stoppedPressingJump,

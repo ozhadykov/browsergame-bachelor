@@ -1,16 +1,17 @@
 "use strict";
-const mainmenu1 = document.getElementById("mainmenu");
-const mycanvas = document.getElementById("mycanvas"); 
+const mainMenu = document.getElementById("main-menu");
+const canvas = document.getElementById("my-canvas");
+const ctx = canvas.getContext("2d");
 const Game = require("./game");
-let myGame = new Game();
+let myGame = new Game(ctx, canvas);
 
 
 
-mycanvas.style.display = "none"; 
+canvas.style.display = "none";
 
 function mainmenu() {
-    mycanvas.style.display = "block";
-    mainmenu1.style.display = "none"; 
+    canvas.style.display = "block";
+    mainMenu.style.display = "none";
     myGame.start();
 }
 

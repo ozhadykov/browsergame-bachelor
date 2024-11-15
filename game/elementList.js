@@ -18,9 +18,14 @@ module.exports = class ElementList extends Array {
         this.splice(i, 1)
     }
 
-    draw(ctx) {
+    /**
+     *
+     * @param ctx
+     * @param canvas
+     */
+    draw(ctx, canvas) {
         for (let i = 0; i < this.length; i++) {
-            this[i].draw(ctx)
+            this[i].draw(ctx, canvas)
         }
     }
 
@@ -30,5 +35,4 @@ module.exports = class ElementList extends Array {
         }
     }
 
-    checkCollision(element) { }
 }
