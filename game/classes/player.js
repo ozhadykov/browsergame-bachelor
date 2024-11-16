@@ -137,7 +137,6 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
-
   draw(ctx, canvas) {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'

@@ -6,7 +6,6 @@ module.exports = class Platform extends BaseGameElement {
 
   constructor(params) {
     super(params)
-    // this.position = position
     this.width = 30
     this.height = 30
   }

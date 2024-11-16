@@ -6,6 +6,10 @@ module.exports = class ElementList extends Array {
     super()
   }
 
+  /**
+   *
+   * @param element
+   */
   add(element) {
     this.push(element)
   }

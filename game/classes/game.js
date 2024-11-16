@@ -1,12 +1,7 @@
 "use strict"
 
 const Player = require('./player.js')
-const Platform = require("./platform")
 const ElementList = require('./elementList')
-const {
-  floor,
-  platforms,
-} = require('../data/levels.js')
 const {generatePlatformsForLevel} = require("../utils/PlatfromElementGenerator.js")
 
 module.exports = class Game {
