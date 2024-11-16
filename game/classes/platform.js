@@ -1,11 +1,8 @@
 "use strict"
-const {
-  ctx
-} = require('./constants.js')
 
-const BaseGameElementelement = require("./element")
+const BaseGameElement = require("./element")
 
-module.exports = class Platform extends BaseGameElementelement {
+module.exports = class Platform extends BaseGameElement {
 
   constructor(params) {
     super(params)
@@ -14,11 +11,9 @@ module.exports = class Platform extends BaseGameElementelement {
     this.height = 30
   }
 
-
   update() {
 
   }
-
 
   draw(ctx) {
     if (!ctx) {

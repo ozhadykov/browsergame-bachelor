@@ -13,7 +13,7 @@ package "bundle" #DDDDDD{
 class Main_js {
   constGame
   let my Game
-  myGame.start()          
+  myGame.start()
 }
 
 
@@ -22,7 +22,7 @@ class Game {
   + gameState
   + gameHelpers
   - levels: int[]
-  - current_level: int 
+  - current_level: int
   + mainmenu()
   + start()
   + update()
@@ -57,8 +57,8 @@ class elementList {
 }
 
 class element {
-  - positionX: int 
-  - positionY: int 
+  - positionX: int
+  - positionY: int
   - width: int
   - height: int
   + draw()
