@@ -69,23 +69,13 @@ The latter command is included in package.json and hence can be started from too
    - **Zuständig:** Imke  
    - Vorläufiges Design für die Plattform-Kollisionsabfrage erstellen.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
----
-=======
-=======
-
->>>>>>> 10f2a9aa0206e9b437d58162d755bd2a5d945f28
 5. **Entwurf des Pausemenüs**
    - **Zuständig:** Paul F
    - Entwurf des Hauptmenüs für das Spiel
 
 ---
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 10f2a9aa0206e9b437d58162d755bd2a5d945f28
 ### Aufgaben (noch nicht zugeteilt)
 **Ziel:** langfristig / iterativ
 
@@ -93,8 +83,5 @@ Idee des Objektorieterten Programmierens einearbeiten
 
 - Prinzip des kleinsten Zugriffs
 - Zusammenfügen von gemeinsamkeiten in Oberklassen (Siehe framework)
-<<<<<<< HEAD
-- 
->>>>>>> 6f5a9a7 (Update README.md)
-=======
->>>>>>> 10f2a9aa0206e9b437d58162d755bd2a5d945f28
+
+
