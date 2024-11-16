@@ -1,5 +1,5 @@
 const Platform = require('../classes/platform.js')
-const {levels} = require('../data/levels.js')
+const {levels}      = require('../data/levels.js')
 
 /**
  *
@@ -7,15 +7,12 @@ const {levels} = require('../data/levels.js')
  * @returns {*[]}
  */
 const generatePlatformsForLevel = (level) => {
-  console.log('level:', level)
   const levelMarkup = levels[level].replace(/\s+/g, '').split('+')
-  console.log(levelMarkup)
-
   const platforms = []
 
   levelMarkup.forEach((levelRow, y) => {
-    //console.log(levelRow)
     levelRow.split('').forEach((levelEl, x) => {
+      // TODO: Define, what kind of platform should be created
       if (levelEl === 'P') {
         const platformEl = new Platform({
           position: {
