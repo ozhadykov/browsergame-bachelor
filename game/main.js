@@ -13,7 +13,7 @@ canvas.style.display = "none";
 function goToMainMenu() {
     canvas.style.display = "block";
     mainMenu.style.display = "none";
-    myGame.start();
+    myGame.start(0);
 }
 
 document.getElementById("start-button").onclick = goToMainMenu;

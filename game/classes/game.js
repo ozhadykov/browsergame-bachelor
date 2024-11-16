@@ -18,10 +18,11 @@ module.exports = class Game {
     this.canvas = canvas
     this.ctx = ctx
     this.elementList = null
+    // not sure if we really need this here, ask prof.
     this.level = level
   }
 
-  start() {
+  start(level) {
 
     //fill all elements in element List:
     this.elementList = new ElementList()
@@ -37,7 +38,7 @@ module.exports = class Game {
     }))
 
     // adding level markup
-    const levelPlatforms = generatePlatformsForLevel(this.level)
+    const levelPlatforms = generatePlatformsForLevel(level)
     levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     // this is important for animation purposes, do not need now
