@@ -71,7 +71,6 @@ game --> elementList
 elementList --> element
 player -|>element
 platform -|> element
-main_js --> game
 }
 
 class main_js {
