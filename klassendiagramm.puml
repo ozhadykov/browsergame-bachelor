@@ -8,75 +8,96 @@ class Index_html {
 
 
 
-package "bundle" #DDDDDD{
+package "classes" #DDDDDD{
 
-class Main_js {
-  constGame
-  let my Game
-  myGame.start()
-}
-
-
-class Game {
-  + gameConstants
-  + gameState
-  + gameHelpers
-  - levels: int[]
-  - current_level: int
-  + mainmenu()
-  + start()
-  + update()
-  + end()
-  + pause()
-  + updateFrames()
-  + tick()
-
-}
-
-
-class Player {
-  - keydown_left: boolean
-  - keydown_right: boolean
-  - keydown_jump: boolean
-  - Eventlistener_left
-  - Eventlistener_right
-  - Eventlistener_jump
-  + startedPressingJump
-  + stoppedPressingJump
-  + applyGravity()
-  + move()
-}
-
-class elementList {
-  + add(element)
-  + get(i)
-  + delete(i)
-  + draw(ctx)
-  + action()
-  + checkCollision(element)
-}
-
-class element {
-  - positionX: int
-  - positionY: int
+  class game {
+    - levels: int[]
+    - current_level: int 
+    + start()
+    + update()
+    + end()
+    + pause()
+    + updateFrames()
+    + tick()
+  
+  }
+  
+  
+  class player {
+    - keydown_left: boolean
+    - keydown_right: boolean
+    - keydown_jump: boolean
+    - Eventlistener_left
+    - Eventlistener_right
+    - Eventlistener_jump
+    - canJump: boolean
+    - inJump: boolean
+    - lastPressedRight: boolean
+    - velocity
+    - startedPressingJump()
+    - stoppedPressingJump()
+    + applyGravity()
+    + action()
+    + checlForCollision(ctx, canvas)
+    + draw(ctx, canvas)
+  }
+  
+  class elementList {
+    + add(element)
+    + get(element)
+    + delete(element)
+    + draw(ctx, canvas)
+    + action()
+  }
+  
+  class element {
+    - positionX: int 
+    - positionY: int 
+    - width: int
+    - height: int
+    + draw(ctx, r, g, b, a, x, y, width, height)
+    + action()
+  }
+  
+  class platform {
   - width: int
   - height: int
-  + draw()
-  + checkCollision(element)
-}
-
-
-class Platform {
-  - type: String
-}
-
-
-
-Game --> elementList
+  + update()
+  + draw(ctx)
+  }
+  
+  
+game --> elementList
 elementList --> element
-Player -|>element
-Platform -|> element
-Main_js --> Game
+player -|>element
+platform -|> element
+main_js --> game
 }
-Index_html -->bundle
+
+class main_js {
+  -Game
+  -myGame
+  -mainMenu
+  -myGame.start() 
+  -goToMainMenu()
+}
+
+package "data" #DDDDDD{
+  
+  class levels {
+  + level
+  }
+}
+
+package "utils" #DDDDDD{
+
+  class PlatformElementGenerator{
+  - generatePlatformsForLevel()
+  }
+}
+
+Index_html --> main_js
+main_js --> classes
+classes --> data
+classes --> utils
 @enduml
