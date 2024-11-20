@@ -2,6 +2,12 @@
 
 const BaseGameElement = require('./element.js')
 
+//fragwürdig:
+const ElementList = require('./elementList')
+const {generatePlatformsForLevel} = require("../utils/PlatfromElementGenerator.js")
+const Platform = require('../classes/platform.js')
+
+
 module.exports = class Player extends BaseGameElement {
 
   constructor(params) {
@@ -11,6 +17,8 @@ module.exports = class Player extends BaseGameElement {
       x: 0,
       y: 1,
     };
+
+    this.elementList = new ElementList();
 
     this.keys = {
       d: {
@@ -23,6 +31,10 @@ module.exports = class Player extends BaseGameElement {
         pressed: false,
       },
     };
+
+    //Elementlisbefüllen:
+    const levelPlatforms = generatePlatformsForLevel(0)
+    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     this.canJump = true;
     this.inJump = false;
@@ -137,6 +149,53 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
+checkForPlatformCollisions() {
+  const playerBottom = this.position.y + this.height;
+  const playerTop = this.position.y;
+  const playerRight = this.position.x + this.width;
+  const playerLeft = this.position.x;
+
+  for (let i = 0; i < this.elementList.length; i++) {
+      const element = this.elementList[i];
+
+      // Ignoriere das eigene Element (den Spieler)
+      if (element === this) continue;
+
+      // Prüfe, ob es sich um eine Plattform handelt
+      if (element instanceof Platform) {
+          const platformBottom = element.position.y + element.height;
+          const platformTop = element.position.y;
+          const platformRight = element.position.x + element.width;
+          const platformLeft = element.position.x;
+
+          // 1. Der Spieler landet auf der Plattform (von oben auf die Plattform fallen)
+          if (playerBottom <= platformTop && playerTop < platformTop && playerLeft < platformRight && playerRight > platformLeft) {
+              // Der Spieler fällt auf die Plattform
+              this.position.y = platformTop - this.height;  // Setze den Spieler direkt auf die Plattform
+              this.canJump = true;  // Erlaube dem Spieler zu springen
+          }
+
+          // 2. Der Spieler trifft die Plattform von oben (die Bewegung nicht stoppen)
+          if (playerTop <= platformBottom && playerBottom > platformBottom && playerLeft < platformRight && playerRight > platformLeft) {
+              // Stoppe nicht die Bewegung, der Spieler fällt weiter
+              this.position.y = platformBottom; // Setze den Spieler direkt unter die Plattform
+          }
+
+          // 3. Kollision von links (Player stößt an die rechte Seite der Plattform)
+          if (playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop && playerTop < platformBottom) {
+              this.position.x = platformLeft - this.width; // Setze den Spieler an den linken Rand der Plattform
+              this.velocity.x = 0; // Stoppe die horizontale Bewegung
+          }
+
+          // 4. Kollision von rechts (Player stößt an die linke Seite der Plattform)
+          if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop && playerTop < platformBottom) {
+              this.position.x = platformRight; // Setze den Spieler an den rechten Rand der Plattform
+              this.velocity.x = 0; // Stoppe die horizontale Bewegung
+          }
+      }
+  }
+}
+
   draw(ctx, canvas) {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
@@ -151,6 +210,9 @@ module.exports = class Player extends BaseGameElement {
 
     this.position.x += this.velocity.x
     this.checkForCollisions(ctx, canvas)
+
+    this.checkForPlatformCollisions()
+
     this.applyGravity()
   }
 
