@@ -1,5 +1,7 @@
 "use strict"
 
+const Player = require('./player.js')
+
 module.exports = class ElementList extends Array {
 
   constructor() {
@@ -16,6 +18,9 @@ module.exports = class ElementList extends Array {
 
   get(i) {
     return this[i]
+  }
+  getPlayer(){ //finding player instance
+    return this.find(element => element instanceof Player)
   }
 
   delete(i) {

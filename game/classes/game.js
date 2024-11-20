@@ -12,6 +12,7 @@ module.exports = class Game {
    * @param canvas
    * @param level
    */
+  
   constructor(ctx, canvas, level = 0) {
     // request animation frame handle
     this.raf = null
@@ -20,6 +21,7 @@ module.exports = class Game {
     this.elementList = null
     // not sure if we really need this here, ask prof.
     this.level = level
+    this.player = null
   }
 
   start(level) {
@@ -36,6 +38,8 @@ module.exports = class Game {
       height: 50,
       width: 50,
     }))
+
+    this.player = this.elementList.getPlayer()
 
     // adding level markup
     const levelPlatforms = generatePlatformsForLevel(level)
@@ -55,17 +59,32 @@ module.exports = class Game {
   }
 
   tick() {
+    if(!this.player.keys.pause.pressed) {
+      //--- clear screen
+      this.ctx.fillStyle = 'white'
+      this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
+      
+      // drawing elements
+      this.elementList.draw(this.ctx, this.canvas)
+      // animating
+      this.elementList.action()
 
-    //--- clear screen
-    this.ctx.fillStyle = 'white'
-    this.ctx.fillRect(0, 0, this.canvas.clientWidth, this.canvas.clientHeight)
+      // calling animation function again
+      this.raf = window.requestAnimationFrame(this.tick.bind(this))
+    }
+    else {
+      this.openPauseMenu(this.canvas)
+    }
+  }
 
-    // drawing elements
-    this.elementList.draw(this.ctx, this.canvas)
-    // animating
-    this.elementList.action()
-
-    // calling animation function again
-    this.raf = window.requestAnimationFrame(this.tick.bind(this))
+  openPauseMenu() {
+      this.canvas.style.display = "none"; 
+      document.getElementById('pauseMenu').style.display = 'block';
+  }
+  closePauseMenu() {
+      this.canvas.style.display = "block"; 
+      document.getElementById('pauseMenu').style.display = 'none';
+      this.raf = window.requestAnimationFrame(this.tick.bind(this))
   }
 }
+

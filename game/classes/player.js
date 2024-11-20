@@ -22,6 +22,9 @@ module.exports = class Player extends BaseGameElement {
       w: {
         pressed: false,
       },
+      pause: { //Escape
+        pressed: false,
+      },
     };
 
     this.canJump = true;
@@ -51,6 +54,9 @@ module.exports = class Player extends BaseGameElement {
             this.inJump = true
             this.keys.w.pressed = true
           }
+          break
+        case 'Escape':
+          this.keys.pause.pressed = true
           break
       }
     })
