@@ -202,11 +202,11 @@ checkForPlatformCollisions() {
           if(this.velocity.x > 0) {
           console.log("horizontale kollision!");
           this.velocity.x = 0
-          this.position.x = platformLeft - this.width - 0.01
+          this.position.x = element.position.x - this.width - 0.01
         }
         if(this.velocity.x < 0) {
           this.velocity.x = 0
-          this.position.x = playerRight + 0.01
+          this.position.x = platformRight + 0.01
           }
       }
   }
