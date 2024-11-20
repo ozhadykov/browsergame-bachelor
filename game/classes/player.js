@@ -154,12 +154,15 @@ checkForPlatformCollisions() {
   const playerTop = this.position.y;
   const playerRight = this.position.x + this.width;
   const playerLeft = this.position.x;
+  var verticalCollision = false
+  var horizontalCollision = false;
+
 
   for (let i = 0; i < this.elementList.length; i++) {
       const element = this.elementList[i];
 
-      // Ignoriere das eigene Element (den Spieler)
-      if (element === this) continue;
+    // Ignoriere das eigene Element (den Spieler)
+    if (element === this) continue;
 
       // Prüfe, ob es sich um eine Plattform handelt
       if (element instanceof Platform) {
@@ -168,33 +171,47 @@ checkForPlatformCollisions() {
           const platformRight = element.position.x + element.width;
           const platformLeft = element.position.x;
 
-          // 1. Der Spieler landet auf der Plattform (von oben auf die Plattform fallen)
-          if (playerBottom <= platformTop && playerTop < platformTop && playerLeft < platformRight && playerRight > platformLeft) {
-              // Der Spieler fällt auf die Plattform
-              this.position.y = platformTop - this.height;  // Setze den Spieler direkt auf die Plattform
-              this.canJump = true;  // Erlaube dem Spieler zu springen
-          }
+      //Vertikale Kollision:
+        if(playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft) { //y-achse
+          verticalCollision = true
 
-          // 2. Der Spieler trifft die Plattform von oben (die Bewegung nicht stoppen)
-          if (playerTop <= platformBottom && playerBottom > platformBottom && playerLeft < platformRight && playerRight > platformLeft) {
-              // Stoppe nicht die Bewegung, der Spieler fällt weiter
-              this.position.y = platformBottom; // Setze den Spieler direkt unter die Plattform
-          }
+        }
 
-          // 3. Kollision von links (Player stößt an die rechte Seite der Plattform)
-          if (playerRight > platformLeft && playerLeft < platformLeft && playerBottom > platformTop && playerTop < platformBottom) {
-              this.position.x = platformLeft - this.width; // Setze den Spieler an den linken Rand der Plattform
-              this.velocity.x = 0; // Stoppe die horizontale Bewegung
-          }
+      //Horizontale Kollision:
+      if(playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft)
+          verticalCollision = true
+        }
 
-          // 4. Kollision von rechts (Player stößt an die linke Seite der Plattform)
-          if (playerLeft < platformRight && playerRight > platformRight && playerBottom > platformTop && playerTop < platformBottom) {
-              this.position.x = platformRight; // Setze den Spieler an den rechten Rand der Plattform
-              this.velocity.x = 0; // Stoppe die horizontale Bewegung
+
+      //player movement anapassen:
+        if(verticalCollision) {
+          if(this.velocity.y > 0) {
+          console.log("vertikale kollision!");
+          this.velocity.y = 0
+          this.position.y = element.position.y - this.height - 0.01
+          }
+          if(this.velocity.y < 0) {
+            console.log("vertikale kollision!");
+            this.velocity.y = 0
+            this.position.y = platformBottom + 0.01
+
+          }
+        }
+
+        if(horizontalCollision) {
+          if(this.velocity.x > 0) {
+          console.log("horizontale kollision!");
+          this.velocity.x = 0
+          this.position.x = platformLeft - this.width - 0.01
+        }
+        if(this.velocity.x < 0) {
+          this.velocity.x = 0
+          this.position.x = playerRight + 0.01
           }
       }
   }
 }
+
 
   draw(ctx, canvas) {
 
@@ -209,11 +226,11 @@ checkForPlatformCollisions() {
 
 
     this.position.x += this.velocity.x
+
+    this.applyGravity()
     this.checkForCollisions(ctx, canvas)
 
     this.checkForPlatformCollisions()
-
-    this.applyGravity()
   }
 
   applyGravity() {
