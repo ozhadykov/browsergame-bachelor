@@ -37,6 +37,14 @@ module.exports = class Player extends BaseGameElement {
     this.startTime = null;
     this.endTime = null;
 
+    this.imgIdle = new Image()
+    this.imgIdle.onload = () => {
+      this.width = 60
+      this.height = 60
+    }
+    this.imgIdle.src = '../game/assets/character/character.png'
+
+
     // creating event listeners only once, do not need to create them each time, when we re-render
     window.addEventListener('keydown', e => {
       switch (e.key) {
@@ -209,14 +217,27 @@ module.exports = class Player extends BaseGameElement {
 
   draw(ctx, canvas) {
 
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
+    if (!this.imgIdle) return
+
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
 
-    if (this.lastPressedRight)
-      ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
-    else
-      ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    ctx.drawImage(
+      this.imgIdle,
+      70,
+      0,
+      60,
+      60,
+      this.position.x,
+      this.position.y,
+      this.width,
+      this.height)
+
+    //if (this.lastPressedRight)
+    //ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    //else
+    //ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
 
 
     this.position.x += this.velocity.x
