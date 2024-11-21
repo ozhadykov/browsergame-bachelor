@@ -2,6 +2,10 @@
 
 const BaseGameElement = require('./element.js')
 
+//fragwürdig:
+
+
+
 module.exports = class Player extends BaseGameElement {
 
   constructor(params) {
@@ -11,6 +15,8 @@ module.exports = class Player extends BaseGameElement {
       x: 0,
       y: 1,
     };
+
+    this.elementList = new ElementList();
 
     this.keys = {
       d: {
@@ -26,6 +32,10 @@ module.exports = class Player extends BaseGameElement {
         pressed: false,
       },
     };
+
+    //Elementlisbefüllen:
+    const levelPlatforms = generatePlatformsForLevel(0)
+    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     this.canJump = true;
     this.inJump = false;
@@ -151,6 +161,7 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
+
   checkForPlatformCollisions() {
     const playerBottom = this.position.y + this.height;
     const playerTop = this.position.y;
@@ -181,7 +192,7 @@ module.exports = class Player extends BaseGameElement {
 
         //Horizontale Kollision:
         if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft)
-          horizontalCollision = true
+          verticalCollision = true
       }
 
 
@@ -241,8 +252,11 @@ module.exports = class Player extends BaseGameElement {
 
 
     this.position.x += this.velocity.x
-    this.checkForCollisions(ctx, canvas)
+
     this.applyGravity()
+    this.checkForCollisions(ctx, canvas)
+
+    this.checkForPlatformCollisions()
   }
 
   applyGravity() {

@@ -3,17 +3,16 @@
 const mainMenu = document.getElementById("main-menu");
 const pauseMenu = document.getElementById("pausemenu");
 
-const canvas = document.getElementById("my-canvas");
-const ctx = canvas.getContext("2d");
-
 const Game = require("./classes/game");
 const Player = require("./classes/player");
-const myGame = new Game(ctx, canvas);
+const myGame = Game.getInstance();
 
-canvas.style.display = "none";
+console.log(myGame)
+
+myGame.canvas.style.display = "none";
 
 function goToMainMenu() {
-    canvas.style.display = "block";
+    myGame.canvas.style.display = "block";
     mainMenu.style.display = "none";
     myGame.start(0);
 }
