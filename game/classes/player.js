@@ -2,6 +2,12 @@
 
 const BaseGameElement = require('./element.js')
 
+//fragwürdig:
+const ElementList = require('./elementList')
+const {generatePlatformsForLevel} = require("../utils/PlatfromElementGenerator.js")
+const Platform = require('../classes/platform.js')
+
+
 module.exports = class Player extends BaseGameElement {
 
   constructor(params) {
@@ -11,6 +17,8 @@ module.exports = class Player extends BaseGameElement {
       x: 0,
       y: 1,
     };
+
+    this.elementList = new ElementList();
 
     this.keys = {
       d: {
@@ -22,10 +30,11 @@ module.exports = class Player extends BaseGameElement {
       w: {
         pressed: false,
       },
-      pause: { //Escape
-        pressed: false,
-      },
     };
+
+    //Elementlisbefüllen:
+    const levelPlatforms = generatePlatformsForLevel(0)
+    levelPlatforms.forEach(platform => this.elementList.add(platform))
 
     this.canJump = true;
     this.inJump = false;
@@ -36,14 +45,6 @@ module.exports = class Player extends BaseGameElement {
 
     this.startTime = null;
     this.endTime = null;
-
-    this.imgIdle = new Image()
-    this.imgIdle.onload = () => {
-      this.width = 60
-      this.height = 60
-    }
-    this.imgIdle.src = '../game/assets/character/character.png'
-
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     window.addEventListener('keydown', e => {
@@ -62,9 +63,6 @@ module.exports = class Player extends BaseGameElement {
             this.inJump = true
             this.keys.w.pressed = true
           }
-          break
-        case 'Escape':
-          this.keys.pause.pressed = true
           break
       }
     })
@@ -181,7 +179,7 @@ module.exports = class Player extends BaseGameElement {
 
         //Horizontale Kollision:
         if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft)
-          horizontalCollision = true
+          verticalCollision = true
       }
 
 
@@ -217,32 +215,22 @@ module.exports = class Player extends BaseGameElement {
 
   draw(ctx, canvas) {
 
-    if (!this.imgIdle) return
-
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
 
-    ctx.drawImage(
-      this.imgIdle,
-      70,
-      0,
-      60,
-      60,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height)
-
-    //if (this.lastPressedRight)
-    //ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
-    //else
-    //ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    if (this.lastPressedRight)
+      ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    else
+      ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
 
 
     this.position.x += this.velocity.x
-    this.checkForCollisions(ctx, canvas)
+
     this.applyGravity()
+    this.checkForCollisions(ctx, canvas)
+
+    this.checkForPlatformCollisions()
   }
 
   applyGravity() {
