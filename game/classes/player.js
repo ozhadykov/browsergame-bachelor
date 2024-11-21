@@ -143,6 +143,73 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
+<<<<<<< Updated upstream
+=======
+  checkForPlatformCollisions() {
+    const playerBottom = this.position.y + this.height;
+    const playerTop = this.position.y;
+    const playerRight = this.position.x + this.width;
+    const playerLeft = this.position.x;
+    var verticalCollision = false
+    var horizontalCollision = false;
+
+
+    for (let i = 0; i < this.elementList.length; i++) {
+      const element = this.elementList[i];
+
+      // Ignoriere das eigene Element (den Spieler)
+      if (element === this) continue;
+
+      // Prüfe, ob es sich um eine Plattform handelt
+      if (element instanceof Platform) {
+        const platformBottom = element.position.y + element.height;
+        const platformTop = element.position.y;
+        const platformRight = element.position.x + element.width;
+        const platformLeft = element.position.x;
+
+        //Vertikale Kollision:
+        if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft) { //y-achse
+          verticalCollision = true
+
+        }
+
+        //Horizontale Kollision:
+        if (playerBottom >= platformTop && playerTop <= platformBottom && playerLeft <= platformRight && playerRight >= platformLeft)
+          horizontalCollision = true
+      }
+
+
+      //player movement anapassen:
+      if (verticalCollision) {
+        if (this.velocity.y > 0) {
+          console.log("vertikale kollision!");
+          this.velocity.y = 0
+          this.position.y = element.position.y - this.height - 0.01
+        }
+        if (this.velocity.y < 0) {
+          console.log("vertikale kollision!");
+          this.velocity.y = 0
+          this.position.y = platformBottom + 0.01
+
+        }
+      }
+
+      if (horizontalCollision) {
+        if (this.velocity.x > 0) {
+          console.log("horizontale kollision!");
+          this.velocity.x = 0
+          this.position.x = element.position.x - this.width - 0.01
+        }
+        if (this.velocity.x < 0) {
+          this.velocity.x = 0
+          this.position.x = platformRight + 0.01
+        }
+      }
+    }
+  }
+
+
+>>>>>>> Stashed changes
   draw(ctx, canvas) {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
