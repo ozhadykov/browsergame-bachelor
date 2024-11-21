@@ -143,8 +143,6 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
-<<<<<<< Updated upstream
-=======
   checkForPlatformCollisions() {
     const playerBottom = this.position.y + this.height;
     const playerTop = this.position.y;
@@ -209,7 +207,6 @@ module.exports = class Player extends BaseGameElement {
   }
 
 
->>>>>>> Stashed changes
   draw(ctx, canvas) {
 
     ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
