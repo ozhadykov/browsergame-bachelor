@@ -28,9 +28,6 @@ module.exports = class Player extends BaseGameElement {
       w: {
         pressed: false,
       },
-      pause: { //Escape
-        pressed: false,
-      },
     };
 
     //Elementlisbefüllen:
@@ -46,14 +43,6 @@ module.exports = class Player extends BaseGameElement {
 
     this.startTime = null;
     this.endTime = null;
-
-    this.imgIdle = new Image()
-    this.imgIdle.onload = () => {
-      this.width = 60
-      this.height = 60
-    }
-    this.imgIdle.src = '../game/assets/character/character.png'
-
 
     // creating event listeners only once, do not need to create them each time, when we re-render
     window.addEventListener('keydown', e => {
@@ -72,9 +61,6 @@ module.exports = class Player extends BaseGameElement {
             this.inJump = true
             this.keys.w.pressed = true
           }
-          break
-        case 'Escape':
-          this.keys.pause.pressed = true
           break
       }
     })
@@ -161,7 +147,6 @@ module.exports = class Player extends BaseGameElement {
 
   }
 
-
   checkForPlatformCollisions() {
     const playerBottom = this.position.y + this.height;
     const playerTop = this.position.y;
@@ -228,27 +213,14 @@ module.exports = class Player extends BaseGameElement {
 
   draw(ctx, canvas) {
 
-    if (!this.imgIdle) return
-
-    ctx.fillStyle = 'rgba(0, 255, 0, 0.3)'
+    ctx.fillStyle = 'rgba(0, 255, 0, 0.5)'
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height)
     ctx.fillStyle = 'rgba(255, 0, 0, 0.5)'
 
-    ctx.drawImage(
-      this.imgIdle,
-      70,
-      0,
-      60,
-      60,
-      this.position.x,
-      this.position.y,
-      this.width,
-      this.height)
-
-    //if (this.lastPressedRight)
-    //ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
-    //else
-    //ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    if (this.lastPressedRight)
+      ctx.fillRect(this.position.x + (this.width - 2 * (this.width / 5)), this.position.y + this.height / 5, this.width / 5, this.height / 5)
+    else
+      ctx.fillRect(this.position.x + this.width / 5, this.position.y + this.height / 5, this.width / 5, this.height / 5)
 
 
     this.position.x += this.velocity.x
